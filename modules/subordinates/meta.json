@@ -1,0 +1,11 @@
+{
+"label":"Subordinates",
+"menu":"Employees",
+"order":"1",
+
+"user_levels":["Admin","Manager"],
+
+"permissions":
+	{
+	}
+}

@@ -1,0 +1,11 @@
+{
+"label":"Attendance",
+"menu":"Time Management",
+"order":"2",
+
+"user_levels":["Admin","Manager","Employee"],
+
+"permissions":
+	{
+	}
+}

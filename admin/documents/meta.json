@@ -1,0 +1,11 @@
+{
+"label":"Document Management",
+"menu":"Admin",
+"order":"6",
+
+"user_levels":["Admin"],
+
+"permissions":
+	{
+	}
+}

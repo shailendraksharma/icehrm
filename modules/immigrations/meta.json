@@ -1,0 +1,23 @@
+{
+"label":"Immigrations",
+"menu":"Personal Information",
+"order":"7",
+
+"user_levels":["Admin","Manager","Employee"],
+
+"permissions":
+	{
+		"Manager":{
+			"Add Immigrations":"Yes",
+			"Edit Immigrations":"Yes",
+			"Delete Immigrations":"Yes"
+		},
+		
+		"Employee":{
+			"Add Immigrations":"Yes",
+			"Edit Immigrations":"Yes",
+			"Delete Immigrations":"No"
+		}
+	}
+	
+}

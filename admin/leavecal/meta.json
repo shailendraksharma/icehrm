@@ -1,0 +1,11 @@
+{
+"label":"Leave Calendar",
+"menu":"Admin",
+"order":"9",
+
+"user_levels":["Admin"],
+
+"permissions":
+	{
+	}
+}

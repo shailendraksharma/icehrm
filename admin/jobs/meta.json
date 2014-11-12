@@ -1,0 +1,11 @@
+{
+"label":"Jobs",
+"menu":"Admin",
+"order":"3",
+
+"user_levels":["Admin"],
+
+"permissions":
+	{
+	}
+}

@@ -1,0 +1,11 @@
+{
+"label":"Leaves",
+"menu":"Admin",
+"order":"8",
+
+"user_levels":["Admin"],
+
+"permissions":
+	{
+	}
+}

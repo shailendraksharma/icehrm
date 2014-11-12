@@ -1,0 +1,11 @@
+{
+"label":"Loans",
+"menu":"Loans",
+"order":"1",
+
+"user_levels":["Admin","Manager","Employee"],
+
+"permissions":
+	{
+	}
+}

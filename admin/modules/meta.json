@@ -1,0 +1,11 @@
+{
+"label":"Manage Modules",
+"menu":"System",
+"order":"3",
+
+"user_levels":["Admin"],
+
+"permissions":
+	{
+	}
+}

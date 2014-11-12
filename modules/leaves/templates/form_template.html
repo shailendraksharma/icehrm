@@ -1,0 +1,64 @@
+<form class="form-horizontal" id="_id_">
+	<div class="control-group">
+		<div class="controls">
+		  	<span class="label label-warning" id="_id__error" style="display:none;"></span>
+		</div>
+	</div>
+	_fields_
+	<div class="control-group">
+    	<div class="controls">
+      		<button onclick="try{modJs.getLeaveDays()}catch(e){};return false;" class="btn">Continue</button>
+      		<button onclick="modJs.cancel();return false;" class="btn">Cancel</button>
+    	</div>
+  	</div>
+</form>
+
+<form class="form-horizontal" id="leave_days_table_cont" style="display:none;">
+	<div class="control-group">
+  		<label class="control-label">Leave Summary</label>
+		<div class="controls">
+		<span class="label label-default">Number of Leaves approved (<span id="approved_leave_count"></span>)</span>
+		<br>
+		<span class="label label-warning">Number of leaves pending approval (<span id="pending_leave_count"></span>)</span>
+		<br>
+		<span class="label label-success">Number of leaves you may apply (<span id="available_leave_count"></span>)</span>
+			
+		</div>
+  	</div>
+	<div class="control-group">
+  		<label class="control-label">Leave Dates</label>
+		<div class="controls">
+			<table class="table table-condensed table-bordered table-striped" id="leave_days_table" style="display: none;width:544px;font-size:14px;">
+			<thead>
+			<tr>
+			<th>Leave Date</th>
+			<th>Leave Type</th>
+			</tr>
+			</thead>
+			<tbody id="leave_days_table_body">
+			</tbody>
+			</table> 	
+		</div>
+  	</div>
+  	<div class="control-group">
+  		<label class="control-label">Leave Notes</label>
+		<div class="controls">
+			<table class="table table-condensed table-bordered table-striped" id="leave_days_table" style="display: none;width:544px;font-size:14px;">
+			<thead>
+			<tr>
+			<th>Time</th>
+			<th>Note</th>
+			</tr>
+			</thead>
+			<tbody id="leave_log_table_body">
+			</tbody>
+			</table> 	
+		</div>
+  	</div>
+  	<div class="control-group">
+    	<div class="controls">
+      		<button onclick="try{modJs.save()}catch(e){};return false;" class="btn">Apply Leaves</button>
+      		<button onclick="modJs.showLeaveView();return false;" class="btn">Back</button>
+    	</div>
+  	</div>
+</form>

@@ -1,0 +1,11 @@
+{
+"label":"Leave Management",
+"menu":"Leaves",
+"order":"1",
+
+"user_levels":["Admin","Manager","Employee"],
+
+"permissions":
+	{
+	}
+}

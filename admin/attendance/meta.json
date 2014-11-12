@@ -1,0 +1,10 @@
+{
+"label":"Monitor Attendance",
+"menu":"Admin",
+"order":"10",
+
+"user_levels":["Admin"],
+
+"permissions":
+	{}	
+}

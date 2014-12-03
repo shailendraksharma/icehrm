@@ -10,4 +10,15 @@ exit();
 }
 $group = $_REQUEST['g'];
 $name= $_REQUEST['n'];
-include APP_BASE_PATH.'/'.$group.'/'.$name.'/index.php';
+
+$groups = array('admin','modules');
+
+if($group == 'admin' || $group == 'modules'){
+	$name = str_replace("..","",$name);	
+	$name = str_replace("/","",$name);
+	include APP_BASE_PATH.'/'.$group.'/'.$name.'/index.php';
+}else{
+	exit();
+}
+
+

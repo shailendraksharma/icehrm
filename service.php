@@ -144,7 +144,12 @@ if($action == 'get'){
 	}
 }else if($action == 'download'){
 	$fileName = $_REQUEST['file'];
+	$fileName = str_replace("..","",$fileName);
+	$fileName = str_replace("/","",$fileName);
 	$fileName = CLIENT_BASE_PATH.'data/'.$fileName;
+	if(!file_exists($fileName)){
+		exit;	
+	}
 	header('Content-Description: File Transfer');
 	header('Content-Type: application/octet-stream');
 	header('Content-Disposition: attachment; filename='.basename($fileName));

@@ -117,6 +117,10 @@ $saveFileName = $_POST['file_name'];
 $saveFileName = str_replace("..","",$saveFileName);
 $saveFileName = str_replace("/","",$saveFileName);
 
+if(stristr($saveFileName,".php")){
+	$saveFileName = str_replace(".php","",$saveFileName);
+}
+
 if(empty($saveFileName) || $saveFileName == "_NEW_"){
 	$saveFileName = microtime();
 	$saveFileName = str_replace(".", "-", $saveFileName);	

@@ -1,4 +1,9 @@
-Release note v7.0
+Release note v7.2
+-----------------
+*Fixes
+*Some critical vulnerabilities are fixed as recommend by http://zeroscience.mk/en/
+
+Release note v7.1
 -----------------
 *Features
 *Improved company structure graph

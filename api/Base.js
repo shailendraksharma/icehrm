@@ -874,11 +874,11 @@ IceHRMBase.method('fillForm', function(object, formId, fields) {
 	
 	for(var i=0;i<fields.length;i++) {
 		if(fields[i][1].type == 'date'){
-			if(object[fields[i][0]] != '0000-00-00'){
+			if(object[fields[i][0]] != '0000-00-00' && object[fields[i][0]] != '' && object[fields[i][0]] != null && object[fields[i][0]] != undefined){
 				$(formId + ' #'+fields[i][0]+"_date").datepicker('setValue', object[fields[i][0]]);
 			}
 		}else if(fields[i][1].type == 'datetime' || fields[i][1].type == 'time'){
-			if(object[fields[i][0]] != '0000-00-00 00:00:00'){
+			if(object[fields[i][0]] != '0000-00-00 00:00:00' && object[fields[i][0]] != '' && object[fields[i][0]] != null && object[fields[i][0]] != undefined){
 				var tempDate = object[fields[i][0]];
 				var arr = tempDate.split(" ");
 				var dateArr = arr[0].split("-");

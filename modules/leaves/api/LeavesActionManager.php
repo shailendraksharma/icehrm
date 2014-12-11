@@ -409,9 +409,19 @@ class LeavesActionManager extends SubActionManager{
 		$availableLeaveArray = array();
 		
 		$currentLeaves = intval($rule->default_per_year);
+		
+		//If the employee joined in current leave period, his leaves should be calculated proportional to joined date
+		if($employee->joined_date != "0000-00-00 00:00:00" && !empty($employee->joined_date)){
+			if(strtotime($currentLeavePeriod->date_start) < strtotime($employee->joined_date)){
+				$currentLeaves = intval($currentLeaves * (strtotime($currentLeavePeriod->date_end) - strtotime($employee->joined_date))/(strtotime($currentLeavePeriod->date_end) - strtotime($currentLeavePeriod->date_start)));
+			}
+		}
+		
 		$availableLeaveArray["total"] = $currentLeaves;
+		
 		if($rule->leave_accrue == "Yes"){
 			$dateTodayTime = strtotime(date("Y-m-d"));	
+			//Take employee joined date into account
 			$startTime = strtotime($currentLeavePeriod->date_start);
 			$endTime = strtotime($currentLeavePeriod->date_end);
 			$datediffFromStart = $dateTodayTime - $startTime;
@@ -424,13 +434,24 @@ class LeavesActionManager extends SubActionManager{
 		
 		$availableLeaveArray["carriedForward"] = 0;
 
-		if($rule->carried_forward == "Yes"){
+		//Leaves should be carried forward only if employee joined before current leave period
+		
+		if($rule->carried_forward == "Yes" && 
+			strtotime($currentLeavePeriod->date_start) > strtotime($employee->joined_date)){
 			//findPreviosLeavePeriod
 			$dayInPreviousLeavePeriod = date('Y-m-d', strtotime($currentLeavePeriod->date_start.' -1 day'));
 			$resp = $this->getCurrentLeavePeriod($dayInPreviousLeavePeriod,$dayInPreviousLeavePeriod);
 			if($resp->getStatus() == "SUCCESS"){
 				$prvLeavePeriod = $resp->getData();
 				$avalilable = $rule->default_per_year;
+				
+				//If the employee joined in this leave period, his leaves should be calculated proportionally
+				if($employee->joined_date != "0000-00-00 00:00:00" && !empty($employee->joined_date)){
+					if(strtotime($prvLeavePeriod->date_start) < strtotime($employee->joined_date)){
+						$avalilable = intval($avalilable * (strtotime($prvLeavePeriod->date_end) - strtotime($employee->joined_date))/(strtotime($prvLeavePeriod->date_end) - strtotime($prvLeavePeriod->date_start)));
+					}
+				}
+				
 				$approved = $this->countLeaveAmounts($this->getEmployeeLeaves($employee->id, $prvLeavePeriod->id, $leaveTypeId, 'Approved'));
 				
 				$leavesCarriedForward =  intval($avalilable) - intval($approved);

@@ -1,5 +1,8 @@
 <?php
-abstract class ReportBuilder{
+if(!interface_exists('ReportBuilderInterface')){
+	include_once MODULE_PATH.'/reportClasses/ReportBuilderInterface.php';
+}
+abstract class ReportBuilder implements ReportBuilderInterface{
 	
 	public function getData($report,$request){
 		$query = $this->getMainQuery();

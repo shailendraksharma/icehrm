@@ -1,4 +1,7 @@
 <?php
+if(!class_exists('ReportBuilder')){
+	include_once MODULE_PATH.'/reportClasses/ReportBuilder.php';
+}
 class EmployeeLeavesReport extends ReportBuilder{
 	
 	public function getMainQuery(){

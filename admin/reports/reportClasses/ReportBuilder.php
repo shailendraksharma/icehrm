@@ -25,8 +25,10 @@ abstract class ReportBuilder implements ReportBuilderInterface{
 		foreach ($rs as $rowId => $row) {
 			$reportData[] = array();
 			if(!$reportNamesFilled){
+				$countIt = 0;
 				foreach ($row as $name=> $value){
-					$columnNames[] = $name;
+					$countIt++;
+					$columnNames[$countIt] = $name;
 					$reportData[count($reportData)-1][] = $value;
 				}
 				$reportNamesFilled = true;

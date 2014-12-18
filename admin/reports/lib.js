@@ -93,8 +93,60 @@ ReportAdapter.method('getActionButtonsHtml', function(id,data) {
 });
 
 ReportAdapter.method('addSuccessCallBack', function(callBackData,serverData) {
-	var link = '<a href="'+this.getCustomActionUrl("download",{'file':serverData})+'" target="_blank">Download Report <i class="icon-download-alt"></i> </a>';
-	this.showMessage("Download Report",link);
+	//var link = '<a href="'+this.getCustomActionUrl("download",{'file':serverData})+'" target="_blank">Download Report <i class="icon-download-alt"></i> </a>';
+	//this.showMessage("Download Report",link);
+	
+	var fileName = serverData[0];
+	var link;
+	
+	if(fileName.indexOf("https:") == 0){
+		link = '<a href="'+fileName+'" target="_blank" style="font-size:14px;font-weight:bold;">Download Report <img src="_BASE_images/download.png"></img> </a>';	
+	}else{
+		link = '<a href="'+modJs.getCustomActionUrl("download",{'file':fileName})+'" target="_blank" style="font-size:14px;font-weight:bold;">Download Report <img src="_BASE_images/download.png"></img> </a>';
+	}
+	link = link.replace(/_BASE_/g,this.baseUrl);
+	
+	var tableHtml = link+'<br/><br/><div class="box-body table-responsive" style="overflow-x:scroll;padding: 5px;border: solid 1px #DDD;"><table id="tempReportTable" cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-striped"></table></div>';
+	
+	//Delete existing temp report table
+	$("#tempReportTable").remove();
+	
+	//this.showMessage("Report",tableHtml);
+	
+	$("#Report").html(tableHtml);
+	$("#Report").show();
+	$("#ReportForm").hide();
+	
+	//Prepare headers
+	var headers = [];
+	for(title in serverData[1]){
+		headers.push({ "sTitle":  serverData[1][title]});
+	}
+	
+	var data = serverData[2];
+	
+	
+	var dataTableParams = {
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"aaData": data,
+			"aoColumns": headers,
+			"bSort": false,
+			"iDisplayLength": 15,
+			"iDisplayStart": 0
+		};
+	
+	$("#tempReportTable").dataTable( dataTableParams );
+	
+	$(".dataTables_paginate ul").addClass("pagination");
+	$(".dataTables_length").hide();
+	$(".dataTables_filter input").addClass("form-control");
+	$(".dataTables_filter input").attr("placeholder","Search");
+	$(".dataTables_filter label").contents().filter(function(){
+	    return (this.nodeType == 3);
+	}).remove();
+	$('.tableActionButton').tooltip();
 });
 
 

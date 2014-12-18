@@ -58,7 +58,7 @@ class EmployeeTimeTrackReport implements ReportBuilderInterface{
 		
 		
 		$reportData = array();
-		$reportData[] = array($employeeObject->first_name." ".$employeeObject->last_name,"","","","");
+		//$reportData[] = array($employeeObject->first_name." ".$employeeObject->last_name,"","","","");
 		$reportData[] = array("Date","First Punch-In Time","Last Punch-Out Time","Time in Office","Time in Timesheets");
 		
 			

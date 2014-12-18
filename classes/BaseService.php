@@ -374,7 +374,6 @@ class BaseService{
 		}
 		
 		
-		
 		if(isset($fileFields[$table])){
 			foreach($fileFields[$table] as $k=>$v){
 				if(!empty($ele->$k)){

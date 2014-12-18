@@ -41,7 +41,7 @@ this.emailTemplates = null;
 this.fieldMasterData = null;
 this.sourceMapping = null;
 this.currentId = null;
-this.user = null;7
+this.user = null;
 this.currentEmployee = null;
 this.permissions = {};
 
@@ -1125,10 +1125,11 @@ IceHRMBase.method('getActionButtonsHtml', function(id,data) {
 
 
 IceHRMBase.method('generateRandom', function(length) {
+	var d = new Date();
 	var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	var result = '';
 	for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
-	return result;
+	return result+d.getTime();
 });
 
 

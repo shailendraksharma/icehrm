@@ -20,6 +20,9 @@ along with iCE Hrm. If not, see <http://www.gnu.org/licenses/>.
 Original work Copyright (c) 2012 [Gamonoid Media Pvt. Ltd]  
 Developer: Thilina Hasantha (thilina.hasantha[at]gmail.com / facebook.com/thilinah)
  */
+
+use Aws\Ses\SesClient;
+
 abstract class EmailSender{
 	var $settings = null;
 	public function __construct($settings){
@@ -92,9 +95,11 @@ class SNSEmailSender extends EmailSender{
 		parent::__construct($settings);
 		$arr = array(
 				'key'    => $this->settings->getSetting('Email: Amazon SNS Key'),
-				'secret' => $this->settings->getSetting('Email: Amazone SNS Secret')
+				'secret' => $this->settings->getSetting('Email: Amazone SNS Secret'),
+				'region' => AWS_REGION
 		);
-		$this->ses = new AmazonSES($arr);
+		//$this->ses = new AmazonSES($arr);
+		$this->ses = SesClient::factory($arr);
 	}
 	
 	protected  function sendMail($subject, $body, $toEmail, $fromEmail) {
@@ -102,24 +107,35 @@ class SNSEmailSender extends EmailSender{
 		error_log("Sending email to: ".$toEmail."/ from: ".$fromEmail);
 
         $toArray = array('ToAddresses' => array($toEmail),
-        				'CcAddresses' => null,
-        				'BccAddresses' => null);
+        				'CcAddresses' => array(),
+        				'BccAddresses' => array());
         $message = array( 
 	        'Subject' => array(
 	            'Data' => $subject,
-	            'Charset' => 'iso-8859-1'
+	            'Charset' => 'UTF-8'
 	        ),
 	        'Body' => array(
 	            'Html' => array(
 	                'Data' => $body,
-	                'Charset' => 'iso-8859-1'
+	                'Charset' => 'UTF-8'
 	            )
 	        )
     	);
     	
-    	$response = $this->ses->send_email($fromEmail, $toArray, $message);
+    	//$response = $this->ses->sendEmail($fromEmail, $toArray, $message);
+    	$response = $this->ses->sendEmail(
+    		array(
+    			'Source'=>$fromEmail, 
+    			'Destination'=>$toArray, 
+    			'Message'=>$message,
+    			'ReplyToAddresses' => array($fromEmail),
+    			'ReturnPath' => $fromEmail
+    		)
+    	);
     	
-    	return $response->isOK();
+    	error_log("SES Response:".print_r($response,true));
+    	
+    	return $response;
     	
     }
 }

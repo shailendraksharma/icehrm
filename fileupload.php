@@ -138,13 +138,50 @@ $uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
 $result = $uploader->handleUpload(CLIENT_BASE_PATH.'data/',$saveFileName);
 // to pass data through iframe you will need to encode all html tags
 
+$uploadFilesToS3 = $settingsManager->getSetting("Files: Upload Files to S3");
+$uploadFilesToS3Key = $settingsManager->getSetting("Files: Amazon S3 Key for File Upload");
+$uploadFilesToS3Secret = $settingsManager->getSetting("Files: Amazone S3 Secret for File Upload");
+$s3Bucket = $settingsManager->getSetting("Files: S3 Bucket");
+$s3WebUrl = $settingsManager->getSetting("Files: S3 Web Url");
+
+$uploadedToS3 = false;
+
+error_log($uploadFilesToS3."|".$uploadFilesToS3Key."|".$uploadFilesToS3Secret."|".$s3Bucket."|".$s3WebUrl."|".CLIENT_NAME);
+
+if($uploadFilesToS3.'' == '1' && !empty($uploadFilesToS3Key) && !empty($uploadFilesToS3Secret) &&
+	!empty($s3Bucket) && !empty($s3WebUrl)){
+	
+	$localFile = CLIENT_BASE_PATH.'data/'.$result['filename'];
+	
+	$f_size = filesize($localFile);
+	$uploadname = CLIENT_NAME."/".$result['filename'];
+	error_log("Upload file to s3:".$uploadname);
+	error_log("Local file:".$localFile);
+	error_log("Local file size:".$f_size);
+	
+	
+	$s3FileSys = new S3FileSystem($uploadFilesToS3Key, $uploadFilesToS3Secret);
+	$res = $s3FileSys->putObject($s3Bucket, $uploadname, $localFile, 'authenticated-read');
+	
+	$file_url = $s3WebUrl.$uploadname;
+	$file_url = $s3FileSys->generateExpiringURL($file_url);
+	error_log("Response from s3 file sys:".print_r($res,true));
+	unlink($localFile);
+	
+	$uploadedToS3 = true;
+}
+
 if($result['success'] == 1){
 	$file->name = $saveFileName;
 	$file->filename = $result['filename'];
 	$file->employee = $_POST['user']=="_NONE_"?null:$_POST['user'];
 	$file->file_group = $_POST['file_group'];
 	$file->Save();
-	$result['data'] = CLIENT_BASE_URL.'data/'.$result['filename'];
+	if($uploadedToS3){
+		$result['data'] = $file_url;
+	}else{
+		$result['data'] = CLIENT_BASE_URL.'data/'.$result['filename'];
+	}
 	$result['data'] .= "|".$saveFileName;
 	$result['data'] .= "|".$file->id;
 }

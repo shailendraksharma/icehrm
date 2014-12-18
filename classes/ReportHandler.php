@@ -62,16 +62,46 @@ class ReportHandler{
 	
 	private function generateReport($report, $data){
 		global $employeeCurrent;
+		global $settingsManager;
+		
 		$fileFirst = "Report_".str_replace(" ", "_", $report->name)."-".date("Y-m-d_H-i-s");
 		$file = $fileFirst.".csv";
+		
 		$fileName = CLIENT_BASE_PATH.'data/'.$file;
 		$fp = fopen($fileName, 'w');
-		
+
 		foreach ($data as $fields) {
 			fputcsv($fp, $fields);
 		}
-		
+			
 		fclose($fp);
+		
+		$uploadedToS3 = false;
+		
+		$uploadFilesToS3 = $settingsManager->getSetting("Files: Upload Files to S3");
+		$uploadFilesToS3Key = $settingsManager->getSetting("Files: Amazon S3 Key for File Upload");
+		$uploadFilesToS3Secret = $settingsManager->getSetting("Files: Amazone S3 Secret for File Upload");
+		$s3Bucket = $settingsManager->getSetting("Files: S3 Bucket");
+		$s3WebUrl = $settingsManager->getSetting("Files: S3 Web Url");
+		
+		if($uploadFilesToS3.'' == '1' && !empty($uploadFilesToS3Key) 
+			&& !empty($uploadFilesToS3Secret) && !empty($s3Bucket) && !empty($s3WebUrl)){
+			
+			$uploadname = CLIENT_NAME."/".$file;
+			$s3FileSys = new S3FileSystem($uploadFilesToS3Key, $uploadFilesToS3Secret);
+			$res = $s3FileSys->putObject($s3Bucket, $uploadname, $fileName, 'authenticated-read');
+			
+			if(empty($res)){
+				return array("ERROR",$file);
+			}
+			
+			unlink($fileName);
+			$file_url = $s3WebUrl.$uploadname;
+			$file_url = $s3FileSys->generateExpiringURL($file_url);
+			$uploadedToS3 = true;
+		}
+		
+		
 		
 		$fileObj = new File();
 		$fileObj->name = $fileFirst;
@@ -84,7 +114,13 @@ class ReportHandler{
 			return array("ERROR","Error generating report");
 		}
 		
-		return array("SUCCESS",$file);
+		$headers = array_shift($data);
+		if($uploadedToS3){
+			return array("SUCCESS",array($file_url,$headers,$data));
+		}else{
+			return array("SUCCESS",array($file,$headers,$data));
+		}
+		
 	}
 	
 	private function buildQueryOmmit($names, $params){

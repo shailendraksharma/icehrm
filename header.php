@@ -211,12 +211,28 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 			function download(name, closeCallback, closeCallbackData){
 	
 				var successCallback = function(data){	
-					var link = '<a href="'+modJs.getCustomActionUrl("download",{'file':data['filename']})+'" target="_blank">Download File <i class="icon-download-alt"></i> </a>';
-					var fileParts = data['filename'].split(".");
+
+					var link;
+					var fileParts;
 					var viewableImages = ["png","jpg","gif","bmp","jpge"]; 
-					if(jQuery.inArray(fileParts[fileParts.length - 1], viewableImages ) >= 0) {
-						link += '<br/><br/><img style="max-width:545px;max-height:350px;" src="'+modJs.getClientDataUrl()+data['filename']+'"/>';
+					
+					if(data['filename'].indexOf("https:") == 0){
+
+						fileParts = data['filename'].split("?");
+						fileParts = fileParts[0].split(".");
+						
+						link = '<a href="'+data['filename']+'" target="_blank">Download File <i class="icon-download-alt"></i> </a>';
+						if(jQuery.inArray(fileParts[fileParts.length - 1], viewableImages ) >= 0) {
+							link += '<br/><br/><img style="max-width:545px;max-height:350px;" src="'+data['filename']+'"/>';
+						}	
+					}else{
+						fileParts = data['filename'].split(".");
+						link = '<a href="'+modJs.getCustomActionUrl("download",{'file':data['filename']})+'" target="_blank">Download File <i class="icon-download-alt"></i> </a>';
+						if(jQuery.inArray(fileParts[fileParts.length - 1], viewableImages ) >= 0) {
+							link += '<br/><br/><img style="max-width:545px;max-height:350px;" src="'+modJs.getClientDataUrl()+data['filename']+'"/>';
+						}
 					}
+					
 					modJs.showMessage("Download File Attachment",link,closeCallback,closeCallbackData);		
 				};
 				

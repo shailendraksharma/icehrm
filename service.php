@@ -138,6 +138,15 @@ if($action == 'get'){
 	$ret = array();
 	if($file->name == $name){
 		$ret['status'] = "SUCCESS";
+		if($settingsManager->getSetting("Files: Upload Files to S3") == '1'){
+			$uploadFilesToS3Key = $settingsManager->getSetting("Files: Amazon S3 Key for File Upload");
+			$uploadFilesToS3Secret = $settingsManager->getSetting("Files: Amazone S3 Secret for File Upload");
+			$s3FileSys = new S3FileSystem($uploadFilesToS3Key, $uploadFilesToS3Secret);
+			$s3WebUrl = $settingsManager->getSetting("Files: S3 Web Url");
+			$fileUrl = $s3WebUrl.CLIENT_NAME."/".$file->filename;
+			$fileUrl = $s3FileSys->generateExpiringURL($fileUrl);
+			$file->filename = $fileUrl;
+		}
 		$ret['data']=$file;
 	}else{
 		$ret['status'] = "ERROR";

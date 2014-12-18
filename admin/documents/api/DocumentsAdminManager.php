@@ -7,7 +7,7 @@ if (!class_exists('DocumentsAdminManager')) {
 		}
 		
 		public function initializeFieldMappings(){
-			$this->addFileFieldMapping('EmployeeDocuments', 'attachment', 'name');
+			$this->addFileFieldMapping('EmployeeDocument', 'attachment', 'name');
 		}
 		
 		public function initializeDatabaseErrorMappings(){

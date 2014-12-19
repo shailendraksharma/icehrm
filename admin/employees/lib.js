@@ -67,7 +67,7 @@ EmployeeAdapter.method('getFormFields', function() {
 	        [ "work_phone", {"label":"Work Phone","type":"text","validation":"none"}],
 	        [ "work_email", {"label":"Work Email","type":"text","validation":"email"}],
 	        [ "private_email", {"label":"Private Email","type":"text","validation":"email"}],
-	        [ "joined_date", {"label":"Joined Date","type":"date","validation":"none"}],
+	        [ "joined_date", {"label":"Joined Date","type":"date","validation":""}],
 	        [ "confirmation_date", {"label":"Confirmation Date","type":"date","validation":"none"}],
 	        [ "department", {"label":"Department","type":"select2","remote-source":["CompanyStructure","id","title"]}],
 	        [ "supervisor", {"label":"Supervisor","type":"select2","allow-null":true,"remote-source":["Employee","id","first_name+last_name"]}]

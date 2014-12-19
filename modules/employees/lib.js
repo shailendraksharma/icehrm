@@ -89,9 +89,9 @@ EmployeeAdapter.method('getFormFields', function() {
 	}
 	
 	if(this.checkPermission("Edit Joined Date") == "Yes"){
-		joined_date = [ "joined_date", {"label":"Joined Date","type":"date","validation":"none"}];
+		joined_date = [ "joined_date", {"label":"Joined Date","type":"date","validation":""}];
 	}else{
-		joined_date = [ "joined_date", {"label":"Joined Date","type":"placeholder","validation":"none"}];
+		joined_date = [ "joined_date", {"label":"Joined Date","type":"placeholder","validation":""}];
 	}
 	
 	if(this.checkPermission("Edit Department") == "Yes"){

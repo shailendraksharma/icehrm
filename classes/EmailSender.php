@@ -47,13 +47,18 @@ abstract class EmailSender{
 		$user = new User();
 		$user->load("username = ?",array('admin'));
 		
+		if(empty($user->id)){
+			$users = $user->Find("user_level = ?",array('Admin'));
+			$user = $users[0];
+		}
+		
 		$emailBody = str_replace("#_adminEmail_#", $user->email, $emailBody);
 		$emailBody = str_replace("#_url_#", CLIENT_BASE_URL, $emailBody);
 		
-		$this->sendMail($subject, $emailBody, $toEmail, $fromEmail);
+		$this->sendMail($subject, $emailBody, $toEmail, $fromEmail, $user->email);
 	}	
 	
-	protected  abstract function sendMail($subject, $body, $toEmail, $fromEmail);
+	protected  abstract function sendMail($subject, $body, $toEmail, $fromEmail, $replyToEmail = null);
 	
 	public function sendResetPasswordEmail($emailOrUserId){
 		$user = new User();
@@ -86,6 +91,7 @@ abstract class EmailSender{
 		$this->sendEmail("[ICE Hrm] Password Change Request", $user->email, $emailBody, $params);
 		return true;
 	}
+	
 }
 
 
@@ -102,7 +108,11 @@ class SNSEmailSender extends EmailSender{
 		$this->ses = SesClient::factory($arr);
 	}
 	
-	protected  function sendMail($subject, $body, $toEmail, $fromEmail) {
+	protected  function sendMail($subject, $body, $toEmail, $fromEmail, $replyToEmail = null) {
+		
+		if(empty($replyToEmail)){
+			$replyToEmail = $fromEmail;
+		}
 		
 		error_log("Sending email to: ".$toEmail."/ from: ".$fromEmail);
 
@@ -128,7 +138,7 @@ class SNSEmailSender extends EmailSender{
     			'Source'=>$fromEmail, 
     			'Destination'=>$toArray, 
     			'Message'=>$message,
-    			'ReplyToAddresses' => array($fromEmail),
+    			'ReplyToAddresses' => array($replyToEmail),
     			'ReturnPath' => $fromEmail
     		)
     	);
@@ -147,7 +157,11 @@ class SMTPEmailSender extends EmailSender{
 		parent::__construct($settings);
 	}
 	
-	protected  function sendMail($subject, $body, $toEmail, $fromEmail) {
+	protected  function sendMail($subject, $body, $toEmail, $fromEmail, $replyToEmail = null) {
+		
+		if(empty($replyToEmail)){
+			$replyToEmail = $fromEmail;
+		}
 
 		error_log("Sending email to: ".$toEmail."/ from: ".$fromEmail);
 		
@@ -179,6 +193,7 @@ class SMTPEmailSender extends EmailSender{
   		'charset' => 'iso-8859-1',
   		'From' => $fromEmail,
   		'To' => $toEmail,
+  		'Reply-To' => $replyToEmail,
    		'Subject' => $subject);
 		
 		
@@ -196,13 +211,18 @@ class PHPMailer extends EmailSender{
 		parent::__construct($settings);
 	}
 
-	protected  function sendMail($subject, $body, $toEmail, $fromEmail) {
+	protected  function sendMail($subject, $body, $toEmail, $fromEmail, $replyToEmail = null) {
+		
+		if(empty($replyToEmail)){
+			$replyToEmail = $fromEmail;
+		}
 
 		error_log("Sending email to: ".$toEmail."/ from: ".$fromEmail);
 
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 		$headers .= 'From: '.$fromEmail. "\r\n";
+		$headers .= 'ReplyTo: '.$replyToEmail. "\r\n";
 		$headers .= 'IceHrm-Mailer: PHP/' . phpversion();
 
 		// Mail it

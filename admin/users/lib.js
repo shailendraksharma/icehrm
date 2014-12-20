@@ -34,9 +34,15 @@ UserAdapter.method('getFormFields', function() {
 	        [ "id", {"label":"ID","type":"hidden","validation":""}],
 	        [ "username", {"label":"User Name","type":"text","validation":"username"}],
 	        [ "email", {"label":"Email","type":"text","validation":"email"}],
-	        [ "employee", {"label":"Employee","type":"select","allow-null":true,"remote-source":["Employee","id","first_name+last_name"]}],
+	        [ "employee", {"label":"Employee","type":"select2","allow-null":true,"remote-source":["Employee","id","first_name+last_name"]}],
 	        [ "user_level", {"label":"User Level","type":"select","source":[["Admin","Admin"],["Manager","Manager"],["Employee","Employee"]]}]
 	];
+});
+
+UserAdapter.method('postRenderForm', function(object, $tempDomObj) {
+	if(object == null || object == undefined){
+		$tempDomObj.find("#changePasswordBtn").remove();
+	}
 });
 
 UserAdapter.method('changePassword', function() {
@@ -44,6 +50,58 @@ UserAdapter.method('changePassword', function() {
 	$('#adminUsersChangePwd #newpwd').val('');
 	$('#adminUsersChangePwd #conpwd').val('');
 });
+
+UserAdapter.method('saveUserSuccessCallBack', function(callBackData,serverData) {
+	this.showMessage("Create User","An email has been sent to "+callBackData['email']+" with a temporary password to login to IceHrm.");
+});
+
+UserAdapter.method('saveUserFailCallBack', function(callBackData,serverData) {
+	this.showMessage("Error",callBackData);
+});
+
+UserAdapter.method('doCustomValidation', function(params) {
+	var msg = null;
+	if(params['user_level'] != "Admin" && params['employee'] == "NULL"){
+		msg = "For non Admin users, you have to assign an employee when adding or editing the user.<br/>";
+		msg += " You may create a new employee through 'Admin'->'Employees' menu";
+	}
+	return msg;
+});
+
+UserAdapter.method('save', function() {
+	var validator = new FormValidation(this.getTableName()+"_submit",true,{'ShowPopup':false,"LabelErrorClass":"error"});
+	if(validator.checkValues()){
+		var params = validator.getFormParameters();
+		
+		var msg = this.doCustomValidation(params);
+		if(msg == null){
+			var id = $('#'+this.getTableName()+"_submit #id").val();
+			if(id != null && id != undefined && id != ""){
+				$(params).attr('id',id);
+				this.add(params,[]);
+			}else{
+				
+				var reqJson = JSON.stringify(params);
+				
+				var callBackData = [];
+				callBackData['callBackData'] = [];
+				callBackData['callBackSuccess'] = 'saveUserSuccessCallBack';
+				callBackData['callBackFail'] = 'saveUserFailCallBack';
+				
+				this.customAction('saveUser','admin=users',reqJson,callBackData);
+			}
+			
+		}else{
+			//$("#"+this.getTableName()+'Form .label').html(msg);
+			//$("#"+this.getTableName()+'Form .label').show();
+			this.showMessage("Error Saving User",msg);
+		}
+		
+		
+		
+	}
+});
+
 
 UserAdapter.method('changePasswordConfirm', function() {
 	$('#adminUsersChangePwd_error').hide();

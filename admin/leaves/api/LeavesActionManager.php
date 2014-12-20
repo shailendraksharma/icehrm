@@ -315,10 +315,15 @@ class LeavesActionManager extends SubActionManager{
 		$params['enddate'] = $leave->date_end;
 		$params['status'] = $leave->status;
 	
-		$email = file_get_contents(APP_BASE_PATH."modules/leaves/emailTemplates/leaveStatusChanged.html");
-		if(!empty($this->emailSender)){
-			$this->emailSender->sendEmail("Leave Application ".$leave->status,$emp->work_email,$email,$params);
+		$user = $this->subActionManager->getUserFromEmployeeId($employee->id);
+		
+		if(!empty($user)){
+			$email = file_get_contents(APP_BASE_PATH."modules/leaves/emailTemplates/leaveStatusChanged.html");
+			if(!empty($this->emailSender)){
+				$this->emailSender->sendEmail("Leave Application ".$leave->status,$user->email,$email,$params);
+			}	
 		}
+		
 		
 	}
 	

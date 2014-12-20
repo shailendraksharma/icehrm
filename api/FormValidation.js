@@ -62,6 +62,14 @@ function FormValidation(formId,validateAll,options) {
 				return str != null && emailPattern.test(str);  
 			},  
 			
+			emailOrEmpty: function (str) {  
+				if(str == ""){
+					return true;
+				}
+				var emailPattern = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;  
+				return str != null && emailPattern.test(str);  
+			}, 
+			
 			username: function (str) {  
 				var username = /^[a-zA-Z0-9]+$/;  
 				return str != null && username.test(str);  

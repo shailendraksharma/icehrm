@@ -947,7 +947,7 @@ IceHRMBase.method('renderFormField', function(field) {
 		return "";
 	}
 	var t = this.fieldTemplates[field[1].type];
-	if(field[1].validation != "none" && field[1].type != "placeholder"){
+	if(field[1].validation != "none" &&  field[1].validation != "emailOrEmpty" && field[1].type != "placeholder" && field[1].label.indexOf('*') < 0){
 		field[1].label = field[1].label + '<font class="redFont">*</font>';
 	}
 	if(field[1].type == 'text' || field[1].type == 'textarea' || field[1].type == 'hidden' || field[1].type == 'label' || field[1].type == 'placeholder'){

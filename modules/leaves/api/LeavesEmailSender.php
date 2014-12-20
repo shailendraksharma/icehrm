@@ -58,10 +58,6 @@ class LeavesEmailSender{
 			$emailTo = $user->email;
 		}
 		
-		if(empty($emailTo)){
-			$emailTo = $sup->work_email;
-		}
-		
 		if(!empty($emailTo)){
 			if(!empty($this->emailSender)){
 				$this->emailSender->sendEmail("Leave Application Received",$emailTo,$email,$params);
@@ -86,10 +82,6 @@ class LeavesEmailSender{
 		$emailTo = null;
 		if(!empty($user)){
 			$emailTo = $user->email;
-		}
-		
-		if(empty($emailTo)){
-			$emailTo = $employee->work_email;
 		}
 		
 		if(!empty($emailTo)){
@@ -118,10 +110,6 @@ class LeavesEmailSender{
 		$emailTo = null;
 		if(!empty($user)){
 			$emailTo = $user->email;
-		}
-		
-		if(empty($emailTo)){
-			$emailTo = $sup->work_email;
 		}
 		
 		if(!empty($emailTo)){

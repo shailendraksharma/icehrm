@@ -103,7 +103,7 @@ EmployeeAdapter.method('getFormFields', function() {
 	if(this.checkPermission("Edit Work Email") == "Yes"){
 		work_email = [ "work_email", {"label":"Work Email","type":"text","validation":"email"}];
 	}else{
-		work_email = [ "work_email", {"label":"Work Email","type":"placeholder","validation":"email"}];
+		work_email = [ "work_email", {"label":"Work Email","type":"placeholder","validation":"emailOrEmpty"}];
 	}
 	
 	if(this.checkPermission("Edit Country") == "Yes"){
@@ -140,7 +140,7 @@ EmployeeAdapter.method('getFormFields', function() {
 	        [ "mobile_phone", {"label":"Mobile Phone","type":"text","validation":"none"}],
 	        [ "work_phone", {"label":"Work Phone","type":"text","validation":"none"}],
 	        work_email,
-	        [ "private_email", {"label":"Private Email","type":"text","validation":"email"}],
+	        [ "private_email", {"label":"Private Email","type":"text","validation":"emailOrEmpty"}],
 	        joined_date,
 	        department
 	];

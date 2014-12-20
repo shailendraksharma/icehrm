@@ -187,6 +187,9 @@ EmployeeAdapter.method('modEmployeeDeleteProfileImageCallBack', function(data) {
 });
 
 EmployeeAdapter.method('modEmployeeGetSuccessCallBack' , function(data) {
+	var currentEmpId = data[1];
+	var userEmpId = data[2];
+	data = data[0];
 	var html = this.getCustomTemplate('myDetails.html');
 	
 	html = html.replace(/_id_/g,data.id);
@@ -237,6 +240,10 @@ EmployeeAdapter.method('modEmployeeGetSuccessCallBack' , function(data) {
 		$("#employeeProfileEditInfo").remove();
 	}
 	
+	if(currentEmpId != userEmpId){
+		$("#employeeUpdatePassword").remove();
+	}
+	
 	this.cancel();
 });
 
@@ -246,6 +253,62 @@ EmployeeAdapter.method('modEmployeeGetFailCallBack' , function(data) {
 
 EmployeeAdapter.method('editEmployee' , function() {
 	this.edit(this.currentUserId);
+});
+
+EmployeeAdapter.method('changePassword', function() {
+	$('#adminUsersModel').modal('show');
+	$('#adminUsersChangePwd #newpwd').val('');
+	$('#adminUsersChangePwd #conpwd').val('');
+});
+
+EmployeeAdapter.method('changePasswordConfirm', function() {
+	$('#adminUsersChangePwd_error').hide();
+	
+	var passwordValidation =  function (str) {  
+		var val = /^[a-zA-Z0-9]\w{6,}$/;  
+		return str != null && val.test(str);  
+	};
+	
+	var password = $('#adminUsersChangePwd #newpwd').val();
+	
+	if(!passwordValidation(password)){
+		$('#adminUsersChangePwd_error').html("Password may contain only letters, numbers and should be longer than 6 characters");
+		$('#adminUsersChangePwd_error').show();
+		return;
+	}
+	
+	var conPassword = $('#adminUsersChangePwd #conpwd').val();
+	
+	if(conPassword != password){
+		$('#adminUsersChangePwd_error').html("Passwords don't match");
+		$('#adminUsersChangePwd_error').show();
+		return;
+	}
+	
+	var req = {"pwd":conPassword};
+	var reqJson = JSON.stringify(req);
+	
+	var callBackData = [];
+	callBackData['callBackData'] = [];
+	callBackData['callBackSuccess'] = 'changePasswordSuccessCallBack';
+	callBackData['callBackFail'] = 'changePasswordFailCallBack';
+	
+	this.customAction('changePassword','modules=employees',reqJson,callBackData);
+	
+});
+
+EmployeeAdapter.method('closeChangePassword', function() {
+	$('#adminUsersModel').modal('hide');
+});
+
+EmployeeAdapter.method('changePasswordSuccessCallBack', function(callBackData,serverData) {
+	this.closeChangePassword();
+	this.showMessage("Password Change","Password changed successfully");
+});
+
+EmployeeAdapter.method('changePasswordFailCallBack', function(callBackData,serverData) {
+	this.closeChangePassword();
+	this.showMessage("Error",callBackData);
 });
 
 

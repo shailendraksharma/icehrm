@@ -49,7 +49,7 @@ class EmployeesActionManager extends SubActionManager{
 		if(empty($employee->id)){
 			return new IceResponse(IceResponse::ERROR,$employee);		
 		}
-		return new IceResponse(IceResponse::SUCCESS,$employee);
+		return new IceResponse(IceResponse::SUCCESS,array($employee,$this->getCurrentEmployeeId(),$this->user->employee));
 	}
 	
 	public function deleteProfileImage($req){
@@ -58,5 +58,23 @@ class EmployeesActionManager extends SubActionManager{
 			$res = $fs->deleteProfileImage($req->id);
 			return new IceResponse(IceResponse::SUCCESS,$res);	
 		}
+	}
+	
+	public function changePassword($req){
+		
+		if($this->getCurrentEmployeeId() != $this->user->employee || empty($this->user->employee)){
+			return new IceResponse(IceResponse::ERROR,"You are not allowed to change passwords of other employees");
+		}
+		
+		$user = $this->baseService->getElement('User',$this->user->id);
+		if(empty($user->id)){
+			return new IceResponse(IceResponse::ERROR,"Error occured while changing password");
+		}
+		$user->password = md5($req->pwd);
+		$ok = $user->Save();
+		if(!$ok){
+			return new IceResponse(IceResponse::ERROR,$user->ErrorMsg());
+		}
+		return new IceResponse(IceResponse::SUCCESS,$user);
 	}
 }

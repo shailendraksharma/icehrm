@@ -44,7 +44,7 @@ if(empty($user)){
 			}
 			
 			if($user->user_level == "Admin"){
-				header("Location:".CLIENT_BASE_URL."?g=admin&n=company_structure&m=admin_Admin");	
+				header("Location:".CLIENT_BASE_URL."?g=admin&n=dashboard&m=admin_Admin");	
 			}else{
 				header("Location:".CLIENT_BASE_URL."?g=modules&n=dashboard&m=module_Personal_Information");	
 			}
@@ -54,7 +54,7 @@ if(empty($user)){
 	}
 }else{
 	if($user->user_level == "Admin"){
-		header("Location:".CLIENT_BASE_URL."?g=admin&n=company_structure&m=admin_Admin");	
+		header("Location:".CLIENT_BASE_URL."?g=admin&n=dashboard&m=admin_Admin");	
 	}else{
 		header("Location:".CLIENT_BASE_URL."?g=modules&n=dashboard&m=module_Personal_Information");	
 	}

@@ -27,7 +27,8 @@ if(empty($user)){
 }
 
 if($user->user_level == "Admin"){
-	$homeLink = CLIENT_BASE_URL."?g=admin&n=company_structure&m=admin_Admin";
+	$homeLink = CLIENT_BASE_URL."?g=admin&n=dashboard&m=admin_Admin";
+	//$homeLink = CLIENT_BASE_URL."?g=admin&n=company_structure&m=admin_Admin";
 }else{
 	$homeLink = CLIENT_BASE_URL."?g=modules&n=dashboard&m=module_Personal_Information";
 }
@@ -260,7 +261,7 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 		
         <header id="delegationDiv" class="header">
             <a href="<?=$homeLink?>" class="logo" style="font-family: 'Source Sans Pro', sans-serif;">
-             Ice Hrm   
+             IceHrm Dashboard  
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">

@@ -17,6 +17,14 @@ Once the application is installed use the username = admin and password = admin 
 
 Note: Please rename or delete the install folder (<ice hrm root>/app/install) since it could pose a security threat to your iCE Hrm instance.
 
+Update icehrm v7.x to v8.0
+--------------------------
+Delete all folders except <icehrm>/app directory
+
+Copy contents of icehrm_v8.0.zip to existing icehrm directory except app directory
+
+Execute 'icehrmdb_os_update_v7.x_to_v8.0.sql' on your icehrm database
+
 Update icehrm v7.1 to v7.2
 --------------------------
 Download update from https://bitbucket.org/thilina/icehrm-opensource/downloads/icehrm_update_from_7.1_to_7.2.zip

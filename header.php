@@ -366,7 +366,7 @@ $meta = json_decode(file_get_contents(MODULE_PATH."/meta.json"),true);
 	                                    <li>
 	                                    	<a target="_bloank" href="http://blog.icehrm.com/"><h5>Administrators' Guide</h5></a>
 	                                    	<a target="_bloank" href="https://bitbucket.org/thilina/icehrm-opensource/issues?status=new&status=open"><h5>Support/Bug Reporting</h5></a>
-	                                    	<a href="#" onclick="modJs.showMessage('About','<p>iCE Hrm - Human Resource Management<br/>Version 7.2<br/>Release Date: 2014/12/04</p>')"><h5>About</h5></a>
+	                                    	<a href="#" onclick="modJs.showMessage('About','<p>iCE Hrm - Human Resource Management<br/>Version 8.0<br/>Release Date: 2014/12/22</p>')"><h5>About</h5></a>
 	                                    </li>
 	                             </ul>
 	                        </li>

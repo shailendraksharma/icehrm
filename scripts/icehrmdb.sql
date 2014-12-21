@@ -447,6 +447,8 @@ create table `EmployeeTimeEntry` (
 	CONSTRAINT `Fk_EmployeeTimeEntry_Projects` FOREIGN KEY (`project`) REFERENCES `Projects` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT `Fk_EmployeeTimeEntry_Employee` FOREIGN KEY (`employee`) REFERENCES `Employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT `Fk_EmployeeTimeEntry_EmployeeTimeSheets` FOREIGN KEY (`timesheet`) REFERENCES `EmployeeTimeSheets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	KEY `employee_project` (`employee`,`project`),
+	KEY `employee_project_date_start` (`employee`,`project`,`date_start`),
 	primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
@@ -540,6 +542,10 @@ create table `Attendance` (
 	`out_time` timestamp default '0000-00-00 00:00:00',
 	`note` varchar(500) default null,
 	CONSTRAINT `Fk_Attendance_Employee` FOREIGN KEY (`employee`) REFERENCES `Employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	KEY `in_time` (`in_time`),
+	KEY `out_time` (`out_time`),
+	KEY `employee_in_time` (`employee`,`in_time`),
+	KEY `employee_out_time` (`employee`,`out_time`),
 	primary key  (`id`)
 ) engine=innodb default charset=utf8;
 

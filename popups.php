@@ -64,8 +64,7 @@
 		<p id="uploadModelBody"></p>
 	</div>
 	<div class="modal-footer">
- 		<button class="btn" onclick="modJs.closeMessage();">Upload File</button>
- 		<button class="btn" onclick="modJs.closeMessage();">Cancel</button>
+ 		<button class="btn" onclick="$('#uploadModel').modal('hide');">Cancel</button>
 	</div>
 </div>
 </div>

@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ERROR);
-$jsVersion = '7.0.1';
-$cssVersion = '7.0.1';
+$jsVersion = '8.1';
+$cssVersion = '8.1';
 
 if (!function_exists('cleanParameters')) {
 	function cleanParameters($input){

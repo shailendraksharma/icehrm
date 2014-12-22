@@ -1,7 +1,8 @@
 <?php
 if(!defined("AWS_REGION")){define('AWS_REGION','us-east-1');}
 include(APP_BASE_PATH.'lib/Mail.php');
-require (APP_BASE_PATH.'lib/aws.phar');
+include(APP_BASE_PATH.'lib/aws-sdk-2.7.11/aws-autoloader.php');
+error_log(APP_BASE_PATH);
 include(APP_BASE_PATH.'adodb512/adodb.inc.php');
 include(APP_BASE_PATH.'adodb512/adodb-active-record.inc.php');
 $ADODB_ASSOC_CASE = 2;

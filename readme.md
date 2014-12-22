@@ -39,6 +39,26 @@ Copy contents of icehrm_v7.1.zip to existing icehrm directory except app directo
 
 Execute 'icehrmdb_os_update_v6.1_to_v7.1.sql' on your icehrm database
 
+Release note v8.0
+-----------------
+### Features
+*Admin dashbord module
+*If the employee joined in current leave period, his leave entitlement is calculated proportional to joined date
+*Improvements to reporting module
+*Adding new employee time tracking report
+*Join date for employees made mandatory
+*Sending welcome email when a user is added
+*Let users directly reply to admin user from any email sent out from icehrm
+*All the users who are not admins must have an employee object attached
+*Upgrade aws sdk to v2.7.11
+*Allow employees to change password
+*Use only the email address defined under user for sending mails
+*Making work_email and private_email fields optional
+
+
+### Fixes
+*Upload dialog close button issue fixed
+
 Release note v7.2
 -----------------
 *Fixes

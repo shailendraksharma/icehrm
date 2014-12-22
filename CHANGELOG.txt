@@ -1,6 +1,6 @@
 Release note v8.0
 -----------------
-*Features
+### Features
 *Admin dashbord module
 *If the employee joined in current leave period, his leave entitlement is calculated proportional to joined date
 *Improvements to reporting module
@@ -15,7 +15,7 @@ Release note v8.0
 *Making work_email and private_email fields optional
 
 
-*Fixes
+### Fixes
 *Upload dialog close button issue fixed
 
 

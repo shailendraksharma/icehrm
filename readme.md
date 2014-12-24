@@ -39,6 +39,13 @@ Copy contents of icehrm_v7.1.zip to existing icehrm directory except app directo
 
 Execute 'icehrmdb_os_update_v6.1_to_v7.1.sql' on your icehrm database
 
+Release note v8.1
+-----------------
+### Fixes
+*Fixed bug that caused a fatal error in php v5.4
+*aws2.7.11 phar file replaced by a aws2.7.11 extracted files
+*old aws sdk removed
+
 Release note v8.0
 -----------------
 ### Features

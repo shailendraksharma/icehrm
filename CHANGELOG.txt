@@ -1,3 +1,10 @@
+Release note v8.1
+-----------------
+### Fixes
+*Fixed bug that caused a fatal error in php v5.4
+*aws2.7.11 phar file replaced by a aws2.7.11 extracted files
+*old aws sdk removed
+
 Release note v8.0
 -----------------
 ### Features

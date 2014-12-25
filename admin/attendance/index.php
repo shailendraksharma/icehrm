@@ -63,7 +63,7 @@ include APP_BASE_PATH.'modulejslibs.inc.php';
 </div>
 <script>
 var modJsList = new Array();
-modJsList['tabAttendance'] = new AttendanceAdapter('Attendance','Attendance','','in_time desc');
+modJsList['tabAttendance'] = new AttendanceAdapter('attendance','Attendance','','in_time desc');
 modJsList['tabAttendance'].setRemoteTable(true);
 var modJs = modJsList['tabAttendance'];
 
